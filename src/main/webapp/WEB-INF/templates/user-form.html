@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.getName() + ' ' + user.getLastname()}"></title>
+</head>
+<body>
+<div>
+    <form method="POST" th:action="@{'/users/' + ${user.id == null ? 'add' : 'edit'}}" th:object="${user}">
+        <input th:field="*{id}" type="hidden">
+        <div>
+            <div>
+                <label>Name</label>
+                <input th:field="*{name}" type="text" placeholder="">
+            </div>
+            <div>
+                <label>Lastname</label>
+                <input th:field="*{lastname}" type="text" placeholder="">
+            </div>
+            <div>
+                <label>Age</label>
+                <input th:field="*{age}" type="number" placeholder="">
+            </div>
+        </div>
+
+        <div>
+            <button type="submit">Сохранить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

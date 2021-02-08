@@ -3,10 +3,13 @@ package com.javamentor.service;
 import com.javamentor.dao.UserDAO;
 import com.javamentor.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -52,5 +55,15 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void delete(Long id) {
         userDAO.delete(id);
+    }
+
+    public Optional<User> findUserByUsername(String username) {
+        return userDAO.findUserByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
     }
 }

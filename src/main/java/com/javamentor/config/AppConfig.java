@@ -1,5 +1,6 @@
 package com.javamentor.config;
 
+import com.javamentor.service.converter.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -34,6 +36,9 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private RoleConverter roleConverter;
 
     private final ApplicationContext applicationContext;
 
@@ -111,5 +116,8 @@ public class AppConfig implements WebMvcConfigurer {
         return props;
     }
 
-
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(roleConverter);
+    }
 }

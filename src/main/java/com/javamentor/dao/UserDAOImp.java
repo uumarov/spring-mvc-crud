@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDAOImp implements UserDAO {
@@ -43,5 +44,11 @@ public class UserDAOImp implements UserDAO {
     public void delete(Long id) {
         User userEntry = entityManager.find(User.class, id);
         entityManager.remove(userEntry);
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return Optional.of(entityManager.createQuery("FROM User WHERE username = :username", User.class)
+                .setParameter("username", username).getSingleResult());
     }
 }
